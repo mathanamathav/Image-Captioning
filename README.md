@@ -24,7 +24,6 @@ Given the image as an input, it tries to generate the descrption of the image.
 
 > It includes the labeling of an image with English keywords with the help of datasets provided during model training. Imagenet dataset is used to train the CNN model called Xception. Xception is responsible for image feature extraction. These extracted features will be fed to the LSTM model which in turn generates the image caption.
 
-![image](https://user-images.githubusercontent.com/62739618/229368911-0c90e3ac-5629-4dd2-851d-b3caf84c0713.png)
 ![image](https://user-images.githubusercontent.com/62739618/229368914-c9f511de-d570-419a-b5af-c01851747853.png)
 
 ## 2 .Improvised Model (Transformers):
