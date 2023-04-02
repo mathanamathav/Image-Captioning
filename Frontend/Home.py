@@ -1,30 +1,60 @@
 import streamlit as st
 from PIL import Image
-import matplotlib.pyplot as plt
+import os
 from pickle import load
 from keras.models import load_model
+import utils_transformer
 import utils
 
 xception_model = utils.cnn_model()
+image_features_extract_model, transformer = utils_transformer.initialize_weights()
 
 # Set up the Streamlit app
+st.set_page_config(layout="wide")
+
 st.title("Image Captioning")
 
-# Add a file upload widget and get the uploaded file
-uploaded_file = st.file_uploader(
-    "Choose an image file", type=["jpg", "jpeg", "png"])
+st.markdown('#')
 
-# If a file was uploaded
+col1, col2 = st.columns(2)
+
+with col1:
+    option = st.selectbox(
+        'Model of Choice?',
+        ('Initial Model', 'Improvised Model'))
+
+    st.subheader('You have selected: {}'.format(option))
+
+with col2:
+    uploaded_file = st.file_uploader(
+        "Choose an image file", type=["jpg", "jpeg", "png"])
+
+
 if uploaded_file is not None:
-    # Load the image from the uploaded file
     image = Image.open(uploaded_file)
 
-    tokenizer = load(open("./models/tokenizer.p", "rb"))
-    model = load_model('./models/model_7.h5')
-    max_length = 32
+    if option == 'Improvised Model':
+        save_folder = './tmp/'+uploaded_file.name
+        with open(save_folder, mode='wb') as w:
+            w.write(uploaded_file.getvalue())
 
-    photo = utils.extract_features(image, xception_model)
-    description = utils.predict_caption(model, tokenizer, photo, max_length)
+        description = utils_transformer.predict_caption(
+            save_folder, image_features_extract_model, transformer)
+    else:
+        tokenizer = load(open("./models/tokenizer.p", "rb"))
+        model = load_model('./models/model_7.h5')
+        max_length = 32
 
-    st.subheader("Text extracted from the image: {}".format(description))
-    st.image(image, caption='Uploaded Image', use_column_width=True)
+        photo = utils.extract_features(image, xception_model)
+        description = utils.predict_caption(
+            model, tokenizer, photo, max_length)
+        
+
+    st.markdown('#')
+    col1, col2, col3 = st.columns(3)
+
+    with col2:
+        st.subheader("Text extracted from the image: {}".format(description))
+        st.image(image, caption='Uploaded Image', width=500)
+    
+    os.remove(save_folder)

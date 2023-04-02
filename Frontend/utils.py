@@ -44,4 +44,10 @@ def predict_caption(model,tokenizer,image,maxlen=32):
       in_text += " " + newword
       if newword == "end":
           break
-  return(in_text)
+  
+  return_str = in_text.split(" ")
+  return_str = return_str[1:]
+  return_str = return_str[:-1]
+
+  return " ".join(return_str)
+
