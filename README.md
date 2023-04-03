@@ -34,6 +34,9 @@ Given the image as an input, it tries to generate the descrption of the image.
 
 Download the Improvise model from here [link](https://drive.google.com/file/d/1DoXDJZdsuuxU-vLM3VtyNxXTzG_N-R-A/view?usp=share_link).
 
+## Comparison:
+
+![VS](https://user-images.githubusercontent.com/62739618/229408091-ccc289e9-52a7-4b5a-92fb-a2bc9ec89c85.png)
 
 ___
 ## Team Members:
