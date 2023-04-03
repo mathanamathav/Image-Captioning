@@ -40,6 +40,9 @@ if uploaded_file is not None:
 
         description = utils_transformer.predict_caption(
             save_folder, image_features_extract_model, transformer)
+        
+        os.remove(save_folder)
+
     else:
         tokenizer = load(open("./models/tokenizer.p", "rb"))
         model = load_model('./models/model_7.h5')
@@ -57,4 +60,3 @@ if uploaded_file is not None:
         st.subheader("Text extracted from the image: {}".format(description))
         st.image(image, caption='Uploaded Image', width=500)
     
-    os.remove(save_folder)
